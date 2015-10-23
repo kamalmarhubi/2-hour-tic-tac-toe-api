@@ -1,1 +1,1 @@
-web: python serve.py PROD
+web: gunicorn tictactoe:app --log-file=-
