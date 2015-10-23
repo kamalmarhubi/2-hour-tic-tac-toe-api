@@ -27,6 +27,28 @@ class Board(object):
         else:
             self._board = dict()
 
+    def _winner(self):
+
+        rows = [[(x, y) for y in range(3)] for x in range(3)]
+        cols = [[(x, y) for x in range(3)] for y in range(3)]
+        diags = [[(0,0), (1,1), (2,2)], [(2,0), (1,1), (0,2)]]
+
+        sets = rows + cols + diags
+        print sets
+
+        for set_pos in sets:
+            cells = [self._board.get(pos, None) for pos in set_pos]
+            print cells
+
+            if all(map(lambda cell: cell == Board.X, cells)):
+                return Board.X
+            elif all(map(lambda cell: cell == Board.O, cells)):
+                return Board.O
+            else:
+                return None
+
+
+
     def next_players(self):
         """Returns possible next players as list."""
 
@@ -35,6 +57,9 @@ class Board(object):
 
         if not -1 <= x_count - o_count <= 1:
             return []  # not a valid board, maybe raise?
+
+        if self._winner() is not None:
+            return []
 
         if x_count == o_count:
             return [Board.X, Board.O]
