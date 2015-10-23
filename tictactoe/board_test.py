@@ -29,6 +29,11 @@ class BoardTest(unittest.TestCase):
 
         self.assertItemsEqual([], Board(wire_format=invalid_board).next_players())
 
+    def test_available_moves(self):
+        self.assertItemsEqual(Board.ALL_POSITIONS,
+                Board(wire_format=board1).available_moves(player=Board.O))
+
+
 
 if __name__ == '__main__':
     unittest.main()

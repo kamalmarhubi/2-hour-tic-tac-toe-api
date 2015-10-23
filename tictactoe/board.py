@@ -1,10 +1,14 @@
 """Board for a tic-tac-toe game."""
 
+import itertools
+
 
 class Board(object):
 
     X = 'x'
     O = 'o'
+
+    ALL_POSITIONS = list(itertools.product(range(3), range(3)))
 
     # Internal representation is dict of pairs (x, y); 0-indexed.
     __slots__ = ['_board']
@@ -25,8 +29,6 @@ class Board(object):
 
         x_count = len([cell for pos, cell in self._board.iteritems() if cell == Board.X])
         o_count = len([cell for pos, cell in self._board.iteritems() if cell == Board.O])
-
-        print '%s %s' % (x_count, o_count)
 
         if not -1 <= x_count - o_count <= 1:
             return []  # not a valid board, maybe raise?
@@ -51,6 +53,20 @@ class Board(object):
                 cells.append(self._board.get((x, y), ' '))
 
         return ''.join(cells)
+
+    def available_moves(self, player):
+        """Returns list of available positions to play in for player.
+
+        Args:
+          player: the player to check moves for
+
+        Raises:
+          ValueError: if it is not possibly player's turn
+        """
+        if player not in self.next_players():
+            raise ValueError('Not turn of player %s' % player)
+
+        return filter(lambda pos: pos not in self._board, Board.ALL_POSITIONS)
 
 
 def _parse_wire_format(wire_format):
