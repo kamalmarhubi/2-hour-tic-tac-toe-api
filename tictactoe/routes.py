@@ -1,4 +1,5 @@
 from flask import abort
+from flask import make_response
 from flask import request
 
 from tictactoe import app
@@ -28,4 +29,7 @@ def game():
         # This catches an inva
         abort(400)  # not O's turn, bad request
 
-    return board.wire_format()
+    resp = make_response(board.wire_format())
+    resp.mimetype = 'text/plain'
+
+    return resp
