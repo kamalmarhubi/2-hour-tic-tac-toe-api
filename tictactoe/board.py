@@ -21,9 +21,23 @@ class Board(object):
             self._board = dict()
 
     def next_players(self):
-        """Returns possible next players."""
+        """Returns possible next players as list."""
 
-        raise NotImplementedError()
+        x_count = len([cell for pos, cell in self._board.iteritems() if cell == Board.X])
+        o_count = len([cell for pos, cell in self._board.iteritems() if cell == Board.O])
+
+        print '%s %s' % (x_count, o_count)
+
+        if not -1 <= x_count - o_count <= 1:
+            return []  # not a valid board, maybe raise?
+
+        if x_count == o_count:
+            return [Board.X, Board.O]
+
+        elif x_count > o_count:
+            return [Board.O]
+        else:
+            return [Board.X]
 
     def pretty_print(self):
         """Formats the board for presentation as fixed-width text."""
