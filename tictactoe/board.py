@@ -3,6 +3,9 @@
 import itertools
 
 
+# TODO: ValueError isn't the right exception type for some of these places.
+
+
 class Board(object):
 
     X = 'x'
@@ -67,6 +70,17 @@ class Board(object):
             raise ValueError('Not turn of player %s' % player)
 
         return filter(lambda pos: pos not in self._board, Board.ALL_POSITIONS)
+
+    def make_move(self, player, pos):
+        """Make a move for player at pos."""
+        if player not in self.next_players():
+            raise ValueError('Not turn of player %s' % player)
+
+        if pos in self._board:
+            raise ValueError('Position already occupied: %s' % pos)
+
+        self._board[pos] = player
+
 
 
 def _parse_wire_format(wire_format):
