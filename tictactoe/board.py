@@ -44,8 +44,8 @@ class Board(object):
                 return Board.X
             elif all(map(lambda cell: cell == Board.O, cells)):
                 return Board.O
-            else:
-                return None
+
+        return None
 
 
 
